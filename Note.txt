@@ -1,0 +1,134 @@
+Mô tả ứng dụng: Ưng dụng đọc pdf để truy xuất thông tin lưu dữ liệu invoice của nhà cung cấp vào hệ thống database
+
+/Rucao_SmartEntry/
+
+├── 🚀 Start_App.bat           <-- Người dùng chỉ cần click vào đây
+
+├── /backend/
+
+│   ├── /python_runtime/       <-- Bản Python rút gọn (Embedded Python)
+
+│   ├── /site-packages/        <-- Chứa PaddleOCR, FastAPI, v.v.
+
+│   ├── /models/               <-- Chứa weights của PaddleOCR (chạy offline)
+
+│   └── main.py                <-- Code FastAPI kết nối các module
+
+├── /frontend/
+
+│   └── dashboard.exe          <-- Giao diện React đóng gói bằng Tauri (nhẹ ~10MB)
+
+├── /database/
+
+│   └── storage.db             <-- SQLite lưu trữ dữ liệu sản phẩm
+
+└── /ollama_portable/          <-- (Tùy chọn) Bản Ollama chạy không cần cài đặt
+
+
+
+
+
+Giai đoạn 1: Xây dựng AI Engine & Môi trường Portable (Ngày 1 - 10)
+
+Mục tiêu: Chạy thông luồng từ PDF ra JSON chuẩn trên máy không có Python.
+
+
+
+Ngày 1-2: Thiết lập python_runtime. Cài đặt các thư viện vào site-packages bằng lệnh pip install --target. Cấu hình file .pth để Python nhận thư viện cục bộ.
+
+Ngày 3-5: Hoàn thiện Pipeline OCR: PDF -> Image (PyMuPDF) -> PaddleOCR (PP-Structure). Đảm bảo model load offline hoàn toàn từ thư mục models/.
+
+Ngày 6-8: Tích hợp Ollama API. Viết module kết nối Qwen 2.5. Xây dựng Prompt Engineering để chuyển bảng thô thành JSON chuẩn hóa.
+
+Ngày 9-10: Xây dựng Data Validator. Viết các hàm Python kiểm tra logic: Số lượng * Đơn giá = Thành tiền.
+
+Giai đoạn 2: Phát triển Giao diện & Trải nghiệm Người dùng (Ngày 11 - 20)
+
+
+
+
+Mục tiêu: Tạo Dashboard chuyên nghiệp giúp người dùng dễ dàng đối soát dữ liệu.
+
+
+Các lưu ý: 
+1. Vấn đề về Routing (Điều hướng)
+Trên web, bạn thường dùng <BrowserRouter>. Nhưng trên Desktop, ứng dụng không chạy qua một web server thông thường mà chạy trực tiếp từ file local (file:// hoặc tauri://).
+
+Lưu ý: Nếu dùng <BrowserRouter>, khi người dùng reload app (Ctrl+R) ở một trang con (ví dụ: /editor), nó có thể văng ra màn hình trắng hoặc lỗi 404.
+
+Giải pháp: Hãy ưu tiên sử dụng <HashRouter> hoặc <MemoryRouter> từ react-router-dom để đảm bảo state điều hướng được giữ nguyên vẹn và an toàn trong môi trường Desktop.
+
+2. Quản lý File System (Kéo thả PDF & Lưu trữ DB)
+Trình duyệt web có cơ chế "hộp cát" (sandbox) rất nghiêm ngặt, không cho phép web tự ý chọc vào ổ C, ổ D của người dùng.
+
+Lưu ý: Thẻ <input type="file"> cơ bản của HTML chỉ lấy được metadata của file chứ không cung cấp đường dẫn vật lý thực tế trên máy tính (nó sẽ hiện kiểu C:\fakepath\invoice.pdf).
+
+Giải pháp: Để bắt được sự kiện kéo thả file PDF vào Dashboard và lấy được đường dẫn thật truyền cho backend xử lý OCR, bạn phải sử dụng các API native của Tauri (như @tauri-apps/plugin-dialog hoặc bắt event drag-drop của @tauri-apps/api/window). Tương tự, thao tác với file SQLite cũng cần cấp quyền trong file tauri.conf.json.
+
+3. Giao tiếp với Backend ngầm (FastAPI)
+Giao diện React của bạn sẽ gọi API tới cổng localhost (ví dụ http://localhost:8000) nơi FastAPI đang chạy Python Portable.
+
+Lưu ý: Lỗi CORS (Cross-Origin Resource Sharing) rất dễ xảy ra. Dù cùng chạy trên một máy, WebView của Tauri (thường chạy ở port 1420) và FastAPI vẫn được tính là 2 origin khác nhau.
+
+Giải pháp: Cấu hình Middleware CORS bên trong mã nguồn FastAPI để cho phép localhost:1420 hoặc tauri://localhost gọi tới một cách hợp lệ.
+
+4. Trải nghiệm UX chuẩn Desktop (Native Feel)
+Một web app mang lên Desktop sẽ rất "kỳ cục" nếu người dùng có thể bôi đen toàn bộ text trên màn hình, hoặc click chuột phải hiện ra menu "Save image as..." hay "Inspect element".
+
+Giải pháp:
+
+Thêm class CSS global (như Tailwind: select-none) vào <body> để vô hiệu hóa việc bôi đen văn bản thừa thãi, chỉ giữ lại select-text cho các ô input/table dữ liệu cần copy.
+
+Tắt context menu mặc định của trình duyệt thông qua event listener contextmenu (ngăn chặn hành vi mặc định bằng e.preventDefault()).
+
+5. Biến môi trường và Bảo mật
+Các biến môi trường .env (VITE_API_URL, v.v.) trong frontend sẽ bị đóng gói thẳng vào file .exe và có thể bị dịch ngược. Đừng bao giờ lưu các key nhạy cảm, license key, hay thông tin bảo mật ở phía React. Hãy để luồng Python backend xử lý các logic cần bảo mật cao.
+
+
+
+Ngày 11-13: Khởi tạo dự án Tauri + React. Xây dựng màn hình Dashboard chính với tính năng kéo thả file.
+
+Ngày 14-17: Xây dựng Split-view Editor. Màn hình hiển thị PDF gốc bên trái và bảng dữ liệu AI bên phải. Cho phép chỉnh sửa trực tiếp (Inline Editing).
+
+Ngày 18-20: Kết nối SQLite. Xây dựng trang lịch sử nhập hàng, cho phép tìm kiếm và lọc sản phẩm đã lưu.
+
+Giai đoạn 3: Tính năng Thương mại & Đóng gói (Ngày 21 - 30)
+
+Mục tiêu: Tối ưu hóa tính năng thông minh và đóng gói file chạy cuối cùng.
+
+
+
+Ngày 21-23: Xây dựng tính năng Template Mapping. App ghi nhớ các cột của từng nhà cung cấp khác nhau để tự động điền dữ liệu chính xác hơn cho lần sau.
+
+Ngày 24-25: Hoàn thiện module Export Excel. Cho phép xuất dữ liệu theo định dạng chuẩn của các phần mềm kế toán (MISA, KiotViet).
+
+Ngày 26-28: Viết file Start_App.bat thông minh: Tự động khởi động Backend ngầm, kiểm tra Ollama và mở giao diện người dùng.
+
+Ngày 29-30: Kiểm thử thực tế (Stress Test) với các file PDF mờ, dung lượng lớn. Viết hướng dẫn sử dụng (README) và đóng gói thành bản .zip thương mại.
+
+
+
+Để dự án gọn gàng và dễ bảo trì, trong thư mục /backend/ chứa mã nguồn FastAPI kết nối các module , bạn nên chia nhỏ cấu trúc thay vì viết tất cả vào file main.py:  
+
+/backend/
+
+/api/: Chứa các Router (Endpoints) giao tiếp với giao diện React.
+
+/crud/: Chứa các hàm tương tác trực tiếp với SQLite (Create, Read, Update, Delete).
+
+
+/schemas/: Chứa các Pydantic models để kiểm tra logic (Data Validator)  và validate dữ liệu từ frontend gửi xuống.  
+
+/services/: Chứa logic nghiệp vụ phức tạp:
+
+
+ocr_service.py (Xử lý PDF -> Image -> PaddleOCR ).  
+
+
+llm_service.py (Module kết nối Qwen 2.5 và Prompt Engineering ).  
+
+
+database.py: Quản lý kết nối tới file /database/storage.db.  
+
+
+main.py : File gốc để khởi tạo FastAPI và cấu hình Middleware CORS.

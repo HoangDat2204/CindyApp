@@ -1,0 +1,214 @@
+{
+  "products": [
+    {
+      "Product Code": "RD-85/AF",
+      "Size": {
+        "BRD": 19.0,
+        "FOD": 30.0,
+        "Width": 29.0
+      },
+      "Special Process": "Round Edg",
+      "Hardness": 85.0,
+      "Unit Price": 0.2556,
+      "Quantity Piece": 10000,
+      "Total USD": 2556.0,
+      "Net Weight": 189.0,
+      "Gross Weight": 205.0
+    },
+    {
+      "Product Code": "RD-85/AF",
+      "Size": {
+        "BRD": 19.0,
+        "FOD": 30.0,
+        "Width": 28.0
+      },
+      "Special Process": "Round Edg",
+      "Hardness": 85.0,
+      "Unit Price": 0.2556,
+      "Quantity Piece": 10000,
+      "Total USD": 2556.0,
+      "Net Weight": 181.0,
+      "Gross Weight": 199.0
+    },
+    {
+      "Product Code": "RD-85/AF",
+      "Size": {
+        "BRD": 19.0,
+        "FOD": 30.0,
+        "Width": 28.0
+      },
+      "Special Process": "Round Edg",
+      "Hardness": 85.0,
+      "Unit Price": 0.2556,
+      "Quantity Piece": 10000,
+      "Total USD": 2556.0,
+      "Net Weight": 181.0,
+      "Gross Weight": 199.0
+    },
+    {
+      "Product Code": "E-5900G",
+      "Size": {
+        "BRD": 37.0,
+        "FOD": 27.8,
+        "Width": 0.9
+      },
+      "Special Process": "Endless",
+      "Hardness": null,
+      "Unit Price": 0.1065,
+      "Quantity Piece": 8000,
+      "Total USD": 852.0,
+      "Net Weight": 32.8,
+      "Gross Weight": 39.2
+    },
+    {
+      "Product Code": "RD-9332",
+      "Size": {
+        "BRD": 72.5,
+        "FOD": 30.0,
+        "Width": 0.9
+      },
+      "Special Process": "Endless",
+      "Hardness": null,
+      "Unit Price": 0.1851,
+      "Quantity Piece": 10000,
+      "Total USD": 1851.0,
+      "Net Weight": 82.0,
+      "Gross Weight": 90.0
+    },
+    {
+      "Product Code": "E-5900G",
+      "Size": {
+        "BRD": 37.0,
+        "FOD": 27.8,
+        "Width": 1.0
+      },
+      "Special Process": "Endless",
+      "Hardness": null,
+      "Unit Price": 0.1065,
+      "Quantity Piece": 10000,
+      "Total USD": 1065.0,
+      "Net Weight": 43.0,
+      "Gross Weight": 52.0
+    },
+    {
+      "Product Code": "RD-75/AF",
+      "Size": {
+        "BRD": 19.0,
+        "FOD": 30.0,
+        "Width": 29.0
+      },
+      "Special Process": "Round Edg",
+      "Hardness": 75.0,
+      "Unit Price": 0.2556,
+      "Quantity Piece": 5200,
+      "Total USD": 1329.12,
+      "Net Weight": 50.0,
+      "Gross Weight": 60.0
+    },
+    {
+      "Product Code": "E-5900G",
+      "Size": {
+        "BRD": 39.2,
+        "FOD": 30.0,
+        "Width": 1.0
+      },
+      "Special Process": "Endless",
+      "Hardness": null,
+      "Unit Price": 0.1065,
+      "Quantity Piece": 8000,
+      "Total USD": 852.0,
+      "Net Weight": 39.2,
+      "Gross Weight": 47.2
+    },
+    {
+      "Product Code": "RD-9332",
+      "Size": {
+        "BRD": 72.5,
+        "FOD": 30.0,
+        "Width": 1.1
+      },
+      "Special Process": "Endless",
+      "Hardness": null,
+      "Unit Price": 0.1851,
+      "Quantity Piece": 17000,
+      "Total USD": 3146.7,
+      "Net Weight": 159.0,
+      "Gross Weight": 175.0
+    },
+    {
+      "Product Code": "E-5910G",
+      "Size": {
+        "BRD": 37.3,
+        "FOD": 30.0,
+        "Width": 1.2
+      },
+      "Special Process": "Short Bot",
+      "Hardness": null,
+      "Unit Price": 0.1145,
+      "Quantity Piece": 10000,
+      "Total USD": 1145.0,
+      "Net Weight": 54.0,
+      "Gross Weight": 63.0
+    },
+    {
+      "Product Code": "RD-9200",
+      "Size": {
+        "BRD": 37.0,
+        "FOD": 31.8,
+        "Width": 1.0
+      },
+      "Special Process": "Endless",
+      "Hardness": null,
+      "Unit Price": 0.1016,
+      "Quantity Piece": 8800,
+      "Total USD": 894.08,
+      "Net Weight": 43.12,
+      "Gross Weight": 55.44
+    },
+    {
+      "Product Code": "RD-9200",
+      "Size": {
+        "BRD": 37.0,
+        "FOD": 27.8,
+        "Width": 1.0
+      },
+      "Special Process": "Endless",
+      "Hardness": null,
+      "Unit Price": 0.0921,
+      "Quantity Piece": 8000,
+      "Total USD": 736.8,
+      "Net Weight": 33.6,
+      "Gross Weight": 43.2
+    },
+    {
+      "Product Code": "RD-85/AF",
+      "Size": {
+        "BRD": 19.0,
+        "FOD": 28.0,
+        "Width": 28.0
+      },
+      "Special Process": "Round Edg",
+      "Hardness": 85.0,
+      "Unit Price": 0.2489,
+      "Quantity Piece": 15000,
+      "Total USD": 3733.5,
+      "Net Weight": 225.0,
+      "Gross Weight": 249.0
+    },
+    {
+      "Product Code": "RD-9432SP",
+      "Size": {
+        "BRD": 72.8,
+        "FOD": 34.0,
+        "Width": 1.0
+      },
+      "Special Process": "Endless",
+      "Hardness": null,
+      "Unit Price": 0.2223,
+      "Quantity Piece": 20000,
+      "Total USD": 4446.0,
+      "Net Weight": 196.0,
+      "Gross Weight": 216.0
+    }
+  ]
+}

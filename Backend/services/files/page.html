@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structured PDF Representation</title>
+    <style>
+        body {
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 40px 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .pdf-page-container {
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+            width: 850px;
+            box-sizing: border-box;
+            border-radius: 6px;
+            border: 1px solid #e4e7ed;
+        }
+
+        .page-number-header {
+            background-color: #fcfcfd;
+            border-bottom: 1px solid #f2f6fc;
+            padding: 12px 40px;
+            font-size: 13px;
+            color: #909399;
+            font-weight: bold;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+        .pdf-page-body {
+            padding: 40px;
+        }
+
+        h2 {
+            color: #1a1a1a;
+            font-size: 18px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 4px;
+            display: inline-block;
+        }
+
+        p {
+            color: #2c3e50;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 14px 0;
+        }
+
+        /* Định dạng bảng biểu hiển thị sắc nét */
+        .pdf-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 24px 0;
+            font-size: 13.5px;
+        }
+
+        .pdf-table td {
+            border: 1px solid #2c3e50;
+            padding: 8px 12px;
+            vertical-align: top;
+            line-height: 1.4;
+            color: #2c3e50;
+        }
+
+        /* Định dạng dòng đầu làm dòng tiêu đề màu nhạt */
+        .pdf-table tr:first-child {
+            background-color: #f8fafc;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+            <div class="pdf-page-container">
+                <div class="page-number-header">Trang 1</div>
+                <div class="pdf-page-body">
+                    <p>Qingdao Everlasting Co., Ltd.<br>Proforma Invoice<br>M/S. MEISHENG TEXTILES VIETNAM CO.,LTD Ref: QEC251230R1<br>NGAI GIAO INDUSTRIAL ZONE, NGAI GIAO TOWN,<br>CHAU DUC DISTRICT BA RIA-VUANG TAU<br>PROVINCE ,VIETNAM Date: Dec 30, 2025</p>
+<table class='pdf-table'>
+  <tr><td>Name of Commodity</td><td>Quantity</td><td>U n i t P r i c e<br>In US Dollars</td><td>T o t al Amount<br>In US Dollars<br>CIF Ho Chi Minh</td></tr>
+  <tr><td>Ring frame<br>modification controller<br>HS Code:853710</td><td rowspan='2'>140</td><td>2,000.00</td><td>280,000.00</td></tr>     
+  <tr><td colspan='2'>Total CIF Ho Chi Minh</td><td></td><td>280,000.00</td></tr>
+</table>
+<p>Total CIF Ho Chi Minh by Sea Shipment: U.S. Dollars Two Hundred and Eighty<br>Thousand only<br>Port of Shipment : Any Port of China<br>Date of Shipment: Within 120 days after receipt of full payment by T/T allowing<br>Transshipment and Partial shipment<br>Payment term： 100% by T/T<br>Country of origin: China<br>BANK NAME: BANK OF CHINA QINGDAO BRANCH<br>SWIFT CODE : BKCHCNBJ50A<br>BANK ADDRESS: NO.59 HONGKONG MIDDLE ROAD ,QINGDAO,SHANDONG,<br>CHINA<br>USD Account: 239048708625<br>BENEFICIARY: QINGDAO EVERLASTING CO., LTD.<br>Address:2560 Haiwang Road, Huangdao, Qingdao, Shandong, China<br>Third party documents are acceptable<br>Erection : the seller will be responsible for one time round air ticket between China to<br>Vietnam , Buyer should arrange for visa approval letter, three meals, hotel or guest house，<br>Local Transport and Medical Service if needed to the technicians and daily allowance 60<br>USD.<br>1<br>Tel: +86-18766260818 Post Code: 266400<br>2560 Haiwang Road, Huangdao, Qingdao, Shandong, China</p>
+                </div>
+            </div>
+
+
+            <div class="pdf-page-container">
+                <div class="page-number-header">Trang 2</div>
+                <div class="pdf-page-body">
+                    <p>Qingdao Everlasting Co., Ltd.<br>Detailing modification List for Ring Frame Electric Lift</p>
+<table class='pdf-table'>
+  <tr><td>Item</td><td>Description</td><td>Quantity</td></tr>
+  <tr><td rowspan='2'>Monitor</td><td>HMI</td><td>140</td></tr>
+  <tr><td>cable</td><td>140</td></tr>
+  <tr><td rowspan='2'>Main Shaft</td><td>Inverter (22KW)</td><td>140</td></tr>
+  <tr><td>Speed sensor</td><td>140</td></tr>
+  <tr><td rowspan='14'>Ring Section</td><td>Servo drives</td><td>140</td></tr>
+  <tr><td>Servo motor</td><td>140</td></tr>
+  <tr><td>Button Board Connection</td><td>140</td></tr>
+  <tr><td>Servo Motor Cable</td><td>140</td></tr>
+  <tr><td>Servo Encoder Cable</td><td>140</td></tr>
+  <tr><td>Communication cable</td><td>140</td></tr>
+  <tr><td>safety fuse seat</td><td>280</td></tr>
+  <tr><td>safety fuse cores</td><td>280</td></tr>
+  <tr><td>Speed sensor</td><td>140</td></tr>
+  <tr><td>Upper Limit Sensor</td><td>140</td></tr>
+  <tr><td>Lower limit Sensor</td><td>140</td></tr>
+  <tr><td>Servo Drive Mounting Backplane</td><td>140</td></tr>
+  <tr><td>Upper Limit sensor Bracket</td><td>140</td></tr>
+  <tr><td>Lower Limit sensor bracket</td><td>140</td></tr>
+</table>
+<h2>2
+Tel: +86-18766260818 Post Code: 266400
+2560 Haiwang Road, Huangdao, Qingdao, Shandong, China</h2>
+                </div>
+            </div>
+
+</body>
+</html>

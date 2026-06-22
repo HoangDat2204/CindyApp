@@ -1,0 +1,12 @@
+# --- Web Framework & Server ---
+fastapi
+uvicorn
+python-multipart 
+
+# --- PDF & OCR Processing ---
+PyMuPDF
+paddlepaddle
+paddleocr
+
+# --- API Connection (cho Ollama) ---
+requests
