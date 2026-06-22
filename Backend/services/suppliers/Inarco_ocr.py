@@ -195,6 +195,18 @@ def extract_invoice_to_json(html_content: str) -> dict:
                 header_name = "FOD-WIDTH"
             elif "WIDTH" in header_upper and "WALL" in header_upper:
                 header_name = "WIDTH-WALL"
+            elif "SPECIAL PROCESS" in header_upper:
+                header_name = "SPECIAL PROCESS"
+            elif "HARDNESS" in header_upper:
+                header_name = "HARDNESS"
+            elif "TOTAL USD" in header_upper:
+                header_name = "TOTAL USD"
+            elif "NET WEIGHT" in header_upper:
+                header_name = "NET WEIGHT KGS"
+            elif "GROSS WEIGHT" in header_upper:
+                header_name = "GROSS WEIGHT KGS"
+            elif "USD USD" in header_upper or header_upper.endswith(" - USD") or header_upper.endswith(" USD"):
+                header_name = "USD USD"
                 
             headers.append(header_name)
 

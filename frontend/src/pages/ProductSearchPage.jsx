@@ -190,7 +190,7 @@ export default function ProductSearchPage() {
       // 1. Nguồn dữ liệu
       rowData.push(
         row.source === "supplier" 
-          ? "Hóa đơn NCC" 
+          ? "Báo giá NCC" 
           : row.source === "client" 
             ? "Báo giá Khách" 
             : "Trong Hợp đồng"
@@ -264,7 +264,7 @@ export default function ProductSearchPage() {
     <div style={S.main}>
       <div>
           <h1 style={S.title}>🔍 Tra Cứu Sản Phẩm Liên Nguồn</h1>
-          <p style={S.subtitle}>Tìm kiếm chi tiết thông tin sản phẩm và so sánh giá từ Hóa đơn NCC, Báo giá cho Khách và Hợp đồng đã lập.</p>
+          <p style={S.subtitle}>Tìm kiếm chi tiết thông tin sản phẩm và so sánh giá từ Báo giá NCC, Báo giá cho Khách và Hợp đồng đã lập.</p>
       </div>
       <div style={S.card}>
         

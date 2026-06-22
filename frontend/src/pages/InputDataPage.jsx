@@ -1055,7 +1055,7 @@ function ItemsModal({ record, onClose }) {
           <button onClick={onClose} style={styles.modalClose}>✕</button>
         </div>
 
-        {/* Khu vực thông số tóm tắt & Các trường tùy chỉnh (Custom fields) cấp hóa đơn */}
+        {/* Khu vực thông số tóm tắt & Các trường tùy chỉnh (Custom fields) cấp báo giá */}
         <div style={{ display: "flex", gap: 10, margin: "14px 0", flexWrap: "wrap" }}>
           <Chip label="Tổng CIF" value={fmtCurrency(record.totalCIF, record.currency)} color="#e91e8c" bg="#FFE4EE" />
           <Chip label="Tổng tiền SP" value={fmtCurrency(calcTotalItemsAmount(items), record.currency)} color="#1565C0" bg="#E3F2FD" />
@@ -1311,7 +1311,7 @@ export default function InvoiceApp() {
   const [localPage, setLocalPage] = useState(1);
   const [localLimit, setLocalLimit] = useState(10); // Mặc định giới hạn 10 dòng mỗi bảng
 
-  // Tách biệt danh sách hóa đơn theo loại
+  // Tách biệt danh sách báo giá theo loại
   const customerRecords = records.filter(r => r.invoiceSource === "customer");
   const supplierRecords = records.filter(r => r.invoiceSource !== "customer");
 
@@ -1511,7 +1511,7 @@ export default function InvoiceApp() {
           (r) => r.code === form.code && r.invoiceSource === form.invoiceSource
         );
         if (isDuplicate) {
-          triggerAlert("Hóa đơn/Báo giá này đã được thêm vào bảng!");
+          triggerAlert("Báo giá/Báo giá này đã được thêm vào bảng!");
           return; 
         }
       }
@@ -1631,7 +1631,7 @@ export default function InvoiceApp() {
                   {editId ? "✏️ Chỉnh sửa" : "Nhập dữ liệu thủ công"} <HeartIcon />
                 </h2>
 
-                {/* Chọn loại hóa đơn nhập thủ công */}
+                {/* Chọn loại báo giá nhập thủ công */}
                 <div style={{ ...styles.toggleBar, marginBottom: 20 }}>
                   <button 
                     type="button"

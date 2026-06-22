@@ -303,7 +303,7 @@ function Chip({ label, value, color, bg }) {
   );
 }
 
-// ─── Component Modal Chi Tiết Hợp Đồng (Chi tiết so sánh 2 hóa đơn) ─────────
+// ─── Component Modal Chi Tiết Hợp Đồng (Chi tiết so sánh 2 báo giá) ─────────
 function ContractDetailModal({ record, onClose, onSaveSuccess }) {
   if (!record) return null;
 
@@ -691,15 +691,15 @@ function ContractDetailModal({ record, onClose, onSaveSuccess }) {
               <Chip label="👤 Người nhận" value={record.receiver || "N/A"} color="#7B1FA2" bg="#F3E5F5" />
             </div>
 
-            {/* So sánh hai bên Hóa đơn chốt */}
+            {/* So sánh hai bên Báo giá chốt */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))", gap: 16, marginBottom: 20 }}>
               
-              {/* Hóa đơn NCC */}
+              {/* Báo giá NCC */}
               <div style={{ border: "1.5px solid #E3F2FD", borderRadius: 14, padding: 16, background: "#FAFDFE" }}>
-                <h3 style={{ margin: "0 0 12px", fontSize: 14, color: "#1565C0", display: "flex", gap: 6, alignItems: "center" }}><Truck size={16}/> Hóa đơn Nhà cung cấp (Đầu vào)</h3>
+                <h3 style={{ margin: "0 0 12px", fontSize: 14, color: "#1565C0", display: "flex", gap: 6, alignItems: "center" }}><Truck size={16}/> Báo giá Nhà cung cấp (Đầu vào)</h3>
                 {record.supplier_invoice ? (
                   <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 13 }}>
-                    <div><strong>Mã báo giá/hóa đơn:</strong> <span style={{ color: "#1565C0", fontWeight: 700 }}>{record.supplier_invoice.invoice_code}</span></div>
+                    <div><strong>Mã báo giá/báo giá:</strong> <span style={{ color: "#1565C0", fontWeight: 700 }}>{record.supplier_invoice.invoice_code}</span></div>
                     <div><strong>Nhà cung cấp:</strong> {record.supplier_invoice.supplier_name || "N/A"}</div>
                     <div><strong>Ngày lập:</strong> {record.supplier_invoice.date || "N/A"}</div>
                     <div><strong>Tổng tiền CIF:</strong> <strong style={{ color: "#1565C0" }}>{fmtCurrency(record.supplier_invoice.total_amount_CIF, record.supplier_invoice.currency)}</strong></div>
@@ -718,15 +718,15 @@ function ContractDetailModal({ record, onClose, onSaveSuccess }) {
                       </div>
                     )}
                   </div>
-                ) : <div style={{ color: "#888", fontStyle: "italic", fontSize: 12 }}>Không tìm thấy thông tin hóa đơn đầu vào.</div>}
+                ) : <div style={{ color: "#888", fontStyle: "italic", fontSize: 12 }}>Không tìm thấy thông tin báo giá đầu vào.</div>}
               </div>
 
-              {/* Hóa đơn Client */}
+              {/* Báo giá Client */}
               <div style={{ border: "1.5px solid #FFF0F5", borderRadius: 14, padding: 16, background: "#FFFDFD" }}>
-                <h3 style={{ margin: "0 0 12px", fontSize: 14, color: "#e91e8c", display: "flex", gap: 6, alignItems: "center" }}><Users size={16}/> Hóa đơn Khách hàng (Đầu ra)</h3>
+                <h3 style={{ margin: "0 0 12px", fontSize: 14, color: "#e91e8c", display: "flex", gap: 6, alignItems: "center" }}><Users size={16}/> Báo giá Khách hàng (Đầu ra)</h3>
                 {record.client_invoice ? (
                   <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 13 }}>
-                    <div><strong>Mã báo giá/hóa đơn:</strong> <span style={{ color: "#e91e8c", fontWeight: 700 }}>{record.client_invoice.invoice_code}</span></div>
+                    <div><strong>Mã báo giá/báo giá:</strong> <span style={{ color: "#e91e8c", fontWeight: 700 }}>{record.client_invoice.invoice_code}</span></div>
                     <div><strong>Khách hàng (Client):</strong> {record.client_invoice.client_name || "N/A"}</div>
                     <div><strong>Ngày lập:</strong> {record.client_invoice.date || "N/A"}</div>
                     <div><strong>Tổng tiền CIF:</strong> <strong style={{ color: "#e91e8c" }}>{fmtCurrency(record.client_invoice.total_amount_CIF, record.client_invoice.currency)}</strong></div>
@@ -745,7 +745,7 @@ function ContractDetailModal({ record, onClose, onSaveSuccess }) {
                       </div>
                     )}
                   </div>
-                ) : <div style={{ color: "#888", fontStyle: "italic", fontSize: 12 }}>Không tìm thấy thông tin hóa đơn đầu ra.</div>}
+                ) : <div style={{ color: "#888", fontStyle: "italic", fontSize: 12 }}>Không tìm thấy thông tin báo giá đầu ra.</div>}
               </div>
 
             </div>
@@ -1032,7 +1032,7 @@ function InvoiceDetailModal({ record, onClose, activeTab, onSaveSuccess }) {
     return "text";
   };
 
-  // Cập nhật thông tin chung của hóa đơn
+  // Cập nhật thông tin chung của báo giá
   const handleHeaderChange = (field, val) => {
     setEditForm({
       ...editForm,
@@ -1049,7 +1049,7 @@ function InvoiceDetailModal({ record, onClose, activeTab, onSaveSuccess }) {
     }
   };
 
-  // Cập nhật trường tùy chỉnh cấp hóa đơn
+  // Cập nhật trường tùy chỉnh cấp báo giá
   const handleCustomFieldChange = (idx, val) => {
     const updated = editForm.customFields.map((f, i) => i === idx ? { ...f, value: val } : f);
     setEditForm({ ...editForm, customFields: updated });
@@ -1165,11 +1165,11 @@ function InvoiceDetailModal({ record, onClose, activeTab, onSaveSuccess }) {
     setEditForm(null);
   };
 
-  // Lưu hóa đơn đã sửa
+  // Lưu báo giá đã sửa
   const handleSave = async () => {
     const codeVal = editForm.invoice_code || editForm.quotation_id;
     if (!codeVal || !codeVal.trim()) {
-      alert("Vui lòng nhập Mã số hóa đơn / báo giá!");
+      alert("Vui lòng nhập Mã số báo giá / báo giá!");
       return;
     }
 
@@ -1224,7 +1224,7 @@ function InvoiceDetailModal({ record, onClose, activeTab, onSaveSuccess }) {
     );
   };
 
-  // ─── THÊM HÀM XUẤT EXCEL CHO RIÊNG LẺ HÓA ĐƠN NÀY ───
+  // ─── THÊM HÀM XUẤT EXCEL CHO RIÊNG LẺ BÁO GIÁ NÀY ───
   const handleSingleExport = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -1259,7 +1259,7 @@ function InvoiceDetailModal({ record, onClose, activeTab, onSaveSuccess }) {
 
     const aoaData = [];
     
-    aoaData.push(["THÔNG TIN HÓA ĐƠN / BÁO GIÁ"]);
+    aoaData.push(["THÔNG TIN BÁO GIÁ / BÁO GIÁ"]);
     aoaData.push(["Mã Số", codeVal]);
     aoaData.push(["Ngày lập", record.date || "-"]);
     aoaData.push([activeTab === "client" ? "Khách hàng" : "Nhà cung cấp", partnerNameForExport]);
@@ -1270,7 +1270,7 @@ function InvoiceDetailModal({ record, onClose, activeTab, onSaveSuccess }) {
     aoaData.push(["Trạng thái", record.status || "-"]);
     
     if (record.note && record.note !== "no info" && record.note !== "No note exists") {
-      aoaData.push(["Ghi chú hóa đơn", record.note]);
+      aoaData.push(["Ghi chú báo giá", record.note]);
     }
     
     aoaData.push([]);
@@ -1382,7 +1382,7 @@ function InvoiceDetailModal({ record, onClose, activeTab, onSaveSuccess }) {
           <h4 style={{ margin: "0 0 10px", fontSize: 14, color: "#e91e8c", fontWeight: 700 }}>Thông tin chung</h4>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "14px 18px", marginBottom: 20 }}>
             <div>
-              <label style={{ fontSize: 12, color: "#555", fontWeight: 600 }}>Mã số hóa đơn / báo giá *</label>
+              <label style={{ fontSize: 12, color: "#555", fontWeight: 600 }}>Mã số báo giá / báo giá *</label>
               <input 
                 value={editForm.invoice_code || ""} 
                 onChange={(e) => handleHeaderChange("invoice_code", e.target.value)} 
@@ -1451,7 +1451,7 @@ function InvoiceDetailModal({ record, onClose, activeTab, onSaveSuccess }) {
               />
             </div>
             <div>
-              <label style={{ fontSize: 12, color: "#555", fontWeight: 600 }}>Ghi chú hóa đơn</label>
+              <label style={{ fontSize: 12, color: "#555", fontWeight: 600 }}>Ghi chú báo giá</label>
               <input 
                 value={editForm.note || ""} 
                 onChange={(e) => handleHeaderChange("note", e.target.value)} 
@@ -2024,13 +2024,13 @@ function CreateContractModal({ isOpen, onClose, onSubmit, triggerAlert }) {
   const [customFields, setCustomFields] = useState([]);
   const [profits, setProfits] = useState(""); // State cho lợi nhuận hợp đồng
 
-  // States Autocomplete hóa đơn NCC
+  // States Autocomplete báo giá NCC
   const [supplierSearch, setSupplierSearch] = useState("");
   const [selectedSupplier, setSelectedSupplier] = useState(null);
   const [supplierSuggestions, setSupplierSuggestions] = useState([]);
   const [showSupplierDropdown, setShowSupplierDropdown] = useState(false);
 
-  // States Autocomplete hóa đơn khách hàng
+  // States Autocomplete báo giá khách hàng
   const [clientSearch, setClientSearch] = useState("");
   const [selectedClient, setSelectedClient] = useState(null);
   const [clientSuggestions, setClientSuggestions] = useState([]);
@@ -2039,7 +2039,7 @@ function CreateContractModal({ isOpen, onClose, onSubmit, triggerAlert }) {
   // Local RAM Cache lưu trữ kết quả tìm kiếm của user
   const [localSearchCache, setLocalSearchCache] = useState({ supplier: {}, client: {} });
 
-  // 1. Debounce tìm kiếm hóa đơn Nhà cung cấp (Sau khi gõ 300ms và có sử dụng Local Cache)
+  // 1. Debounce tìm kiếm báo giá Nhà cung cấp (Sau khi gõ 300ms và có sử dụng Local Cache)
   useEffect(() => {
     if (!supplierSearch.trim()) {
       setSupplierSuggestions([]);
@@ -2065,14 +2065,14 @@ function CreateContractModal({ isOpen, onClose, onSubmit, triggerAlert }) {
           }));
         }
       } catch (err) {
-        console.error("Lỗi gợi ý hóa đơn NCC:", err);
+        console.error("Lỗi gợi ý báo giá NCC:", err);
       }
     }, 300);
 
     return () => clearTimeout(handler);
   }, [supplierSearch]);
 
-  // 2. Debounce tìm kiếm hóa đơn Khách hàng
+  // 2. Debounce tìm kiếm báo giá Khách hàng
   useEffect(() => {
     if (!clientSearch.trim()) {
       setClientSuggestions([]);
@@ -2097,7 +2097,7 @@ function CreateContractModal({ isOpen, onClose, onSubmit, triggerAlert }) {
           }));
         }
       } catch (err) {
-        console.error("Lỗi gợi ý hóa đơn khách hàng:", err);
+        console.error("Lỗi gợi ý báo giá khách hàng:", err);
       }
     }, 300);
 
@@ -2129,11 +2129,11 @@ function CreateContractModal({ isOpen, onClose, onSubmit, triggerAlert }) {
       return;
     }
     if (!selectedClient) {
-      triggerAlert("Vui lòng tìm và chọn Hóa đơn Khách hàng!");
+      triggerAlert("Vui lòng tìm và chọn Báo giá Khách hàng!");
       return;
     }
     if (!selectedSupplier) {
-      triggerAlert("Vui lòng tìm và chọn Hóa đơn Nhà cung cấp!");
+      triggerAlert("Vui lòng tìm và chọn Báo giá Nhà cung cấp!");
       return;
     }
 
@@ -2202,10 +2202,10 @@ function CreateContractModal({ isOpen, onClose, onSubmit, triggerAlert }) {
             {/* Cột Trái */}
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               
-              {/* Tìm hóa đơn NCC */}
+              {/* Tìm báo giá NCC */}
               <div style={{ position: "relative" }}>
                 <label style={{ fontSize: 12, fontWeight: 700, color: "#e91e8c", display: "block", marginBottom: 4 }}>
-                  Mã Hóa đơn Nhà cung cấp *
+                  Mã Báo giá Nhà cung cấp *
                 </label>
                 {selectedSupplier ? (
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 12px", background: "#E8F5E9", border: "1px solid #C8E6C9", borderRadius: 8 }}>
@@ -2230,7 +2230,7 @@ function CreateContractModal({ isOpen, onClose, onSubmit, triggerAlert }) {
                   <div>
                     <input 
                       type="text"
-                      placeholder="Gõ tìm kiếm mã hóa đơn..."
+                      placeholder="Gõ tìm kiếm mã báo giá..."
                       value={supplierSearch}
                       onChange={(e) => { setSupplierSearch(e.target.value); setShowSupplierDropdown(true); }}
                       onFocus={() => setShowSupplierDropdown(true)}
@@ -2260,10 +2260,10 @@ function CreateContractModal({ isOpen, onClose, onSubmit, triggerAlert }) {
                 )}
               </div>
 
-              {/* Tìm hóa đơn Khách hàng */}
+              {/* Tìm báo giá Khách hàng */}
               <div style={{ position: "relative" }}>
                 <label style={{ fontSize: 12, fontWeight: 700, color: "#e91e8c", display: "block", marginBottom: 4 }}>
-                  Mã Hóa đơn Khách mua *
+                  Mã Báo giá Khách mua *
                 </label>
                 {selectedClient ? (
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 12px", background: "#E8F5E9", border: "1px solid #C8E6C9", borderRadius: 8 }}>
@@ -2288,7 +2288,7 @@ function CreateContractModal({ isOpen, onClose, onSubmit, triggerAlert }) {
                   <div>
                     <input 
                       type="text"
-                      placeholder="Gõ tìm kiếm mã hóa đơn..."
+                      placeholder="Gõ tìm kiếm mã báo giá..."
                       value={clientSearch}
                       onChange={(e) => { setClientSearch(e.target.value); setShowClientDropdown(true); }}
                       onFocus={() => setShowClientDropdown(true)}
@@ -2623,7 +2623,7 @@ export default function DataTablePage() {
 
   // ─── THÊM CÁC STATE NÀY ĐỂ QUẢN LÝ TÌM KIẾM ĐỘNG ───
   const [searchTerm, setSearchTerm] = useState("");              // Chữ đang gõ trong ô tìm kiếm
-  const [suggestions, setSuggestions] = useState([]);            // Danh sách hóa đơn gợi ý
+  const [suggestions, setSuggestions] = useState([]);            // Danh sách báo giá gợi ý
   const [showSuggestions, setShowSuggestions] = useState(false);  // Trạng thái ẩn/hiện danh sách gợi ý
   const [activeSearchQuery, setActiveSearchQuery] = useState("");  // Từ khóa thực tế đang áp dụng vào bảng
 
@@ -2860,7 +2860,7 @@ export default function DataTablePage() {
       const res = await fetch(url, { method: "DELETE" });
 
       if (res.ok) {
-        triggerAlert(`✅ Đã xóa thành công ${activeTab === "contract" ? "hợp đồng" : "hóa đơn"} ${code}!`);
+        triggerAlert(`✅ Đã xóa thành công ${activeTab === "contract" ? "hợp đồng" : "báo giá"} ${code}!`);
         setSelectedIds(prev => prev.filter(selectedId => selectedId !== id));
         
         // Làm sạch cache của Tab đang hoạt động
@@ -2938,8 +2938,8 @@ export default function DataTablePage() {
       const headers = [
         "Mã Hợp Đồng",
         "Ngày Chốt",
-        "Hóa đơn NCC",
-        "Hóa đơn Khách",
+        "Báo giá NCC",
+        "Báo giá Khách",
         "Commission (%)",
         "Nego Margin (%)",
         "Supplier Discount",
@@ -2990,7 +2990,7 @@ export default function DataTablePage() {
       XLSX.writeFile(wb, `Export_Contracts_${Date.now()}.xlsx`);
 
     } else {
-      // Duyệt qua từng hóa đơn đã chọn để tạo một Sheet tương ứng (Nhà cung cấp / Khách hàng)
+      // Duyệt qua từng báo giá đã chọn để tạo một Sheet tương ứng (Nhà cung cấp / Khách hàng)
       selectedRows.forEach(row => {
         const codeVal = row.invoice_code || row.quotation_id || row.code;
         const itemsAmount = calcTotalItemsAmount(row.items);
@@ -3004,7 +3004,7 @@ export default function DataTablePage() {
 
         const aoaData = [];
         
-        aoaData.push(["THÔNG TIN HÓA ĐƠN / BÁO GIÁ"]);
+        aoaData.push(["THÔNG TIN BÁO GIÁ / BÁO GIÁ"]);
         aoaData.push(["Mã Số", codeVal]);
         aoaData.push(["Ngày lập", row.date || "-"]);
         aoaData.push([activeTab === "client" ? "Khách hàng" : "Nhà cung cấp", partnerName]);
@@ -3015,7 +3015,7 @@ export default function DataTablePage() {
         aoaData.push(["Trạng thái", row.status || "-"]);
         
         if (row.note && row.note !== "no info" && row.note !== "No note exists") {
-          aoaData.push(["Ghi chú hóa đơn", row.note]);
+          aoaData.push(["Ghi chú báo giá", row.note]);
         }
         
         aoaData.push([]);
@@ -3143,7 +3143,7 @@ export default function DataTablePage() {
                   type="text"
                   placeholder={
                     activeTab === "contract" 
-                      ? "Tìm mã HĐ, hóa đơn chốt, đối tác, SP..." 
+                      ? "Tìm mã HĐ, báo giá chốt, đối tác, SP..." 
                       : activeTab === "supplier"
                         ? "Tìm mã HĐ NCC, NCC, Khách, mã SP..."
                         : "Tìm mã HĐ Khách, Khách, NCC, mã SP..."
@@ -3204,7 +3204,7 @@ export default function DataTablePage() {
                         e.preventDefault();
                         e.stopPropagation();
                         setShowSuggestions(false);
-                        // Kích hoạt xem chi tiết đúng loại Modal (Modal hợp đồng hoặc Modal hóa đơn)
+                        // Kích hoạt xem chi tiết đúng loại Modal (Modal hợp đồng hoặc Modal báo giá)
                         handleViewDetail(item);
                       }}
                       style={{
@@ -3288,8 +3288,8 @@ export default function DataTablePage() {
                     <th style={S.th}>STT</th>
                     <th style={S.th}>Ngày chốt</th>
                     <th style={S.th}>Mã Hợp Đồng</th>
-                    <th style={S.th}>Mã hóa đơn NCC</th>
-                    <th style={S.th}>Mã hóa đơn Khách</th>
+                    <th style={S.th}>Mã báo giá NCC</th>
+                    <th style={S.th}>Mã báo giá Khách</th>
                     <th style={S.th}>Commission (%)</th>
                     <th style={S.th}>Nego margin (%)</th>
                     <th style={S.th}>Supplier discount</th>
@@ -3304,14 +3304,14 @@ export default function DataTablePage() {
                     <th style={S.th}>Thao tác</th>
                   </tr>
                 ) : (
-                  // Headers dành cho TAB HÓA ĐƠN (NCC hoặc Khách Hàng)
+                  // Headers dành cho TAB BÁO GIÁ (NCC hoặc Khách Hàng)
                   <tr>
                     <th style={{ ...S.th, width: 40, textAlign: "center" }}>
                       <input type="checkbox" checked={isAllChecked} onChange={handleToggleAll} style={{ accentColor: "#e91e8c", cursor: "pointer" }} />
                     </th>
                     <th style={S.th}>STT</th>
                     <th style={S.th}>Ngày lập</th>
-                    <th style={S.th}>Mã hóa đơn / Báo giá</th>
+                    <th style={S.th}>Mã báo giá / Báo giá</th>
                     {activeTab === "supplier" ? (
                       <th style={S.th}>Nhà cung cấp</th>
                     ) : (
@@ -3371,7 +3371,7 @@ export default function DataTablePage() {
                         <td style={S.td}><span style={{ background: pStatusCustomer.bg, color: pStatusCustomer.color, padding: "2px 8px", borderRadius: 5, fontSize: 11, fontWeight: 700 }}>{pStatusCustomer.label}</span></td>
                         <td style={S.td}>
                           <button onClick={() => handleViewDetail(row)} style={S.btnDetail} title="Xem chi tiết hợp đồng">
-                            🔍 So sánh hóa đơn
+                            🔍 So sánh báo giá
                           </button>
                         </td>
                         <td style={{ ...S.td, textAlign: "center" }}>
@@ -3383,7 +3383,7 @@ export default function DataTablePage() {
                                   Bạn có chắc chắn muốn xóa hợp đồng <strong style={{ color: "#e91e8c" }}>{row.contract_code}</strong> không?
                                   <br />
                                   <span style={{ display: "inline-block", marginTop: 8, color: "#D32F2F" }}>
-                                    Hành động này sẽ không làm mất các hóa đơn gốc bên trong nhưng sẽ <strong>xóa vĩnh viễn cấu trúc liên kết hợp đồng này</strong>!
+                                    Hành động này sẽ không làm mất các báo giá gốc bên trong nhưng sẽ <strong>xóa vĩnh viễn cấu trúc liên kết hợp đồng này</strong>!
                                   </span>
                                 </span>,
                                 () => executeDelete(row.id, row.contract_code),
@@ -3401,7 +3401,7 @@ export default function DataTablePage() {
                     )
                   })
                 ) : (
-                  // RENDER THÔNG TIN BẢNG HÓA ĐƠN
+                  // RENDER THÔNG TIN BẢNG BÁO GIÁ
                   rows.map((row, idx) => {
                     const stt = (page - 1) * limit + idx + 1;
                     const itemsAmount = calcTotalItemsAmount(row.items);
@@ -3437,7 +3437,7 @@ export default function DataTablePage() {
                               e.stopPropagation(); 
                               triggerConfirm(
                                 <span>
-                                  Bạn có chắc chắn muốn xóa hóa đơn <strong style={{ color: "#e91e8c" }}>{codeVal}</strong> không?
+                                  Bạn có chắc chắn muốn xóa báo giá <strong style={{ color: "#e91e8c" }}>{codeVal}</strong> không?
                                   <br />
                                   <span style={{ display: "inline-block", marginTop: 8 }}>
                                     Hành động này sẽ <strong style={{ color: "#D32F2F" }}>xóa luôn toàn bộ sản phẩm liên quan</strong> bên trong và <strong style={{ color: "#D32F2F" }}>không thể hoàn tác</strong>!
