@@ -4,3 +4,4 @@ uploaded_files/
 site-packages/
 node_modules/
 target/
+storage.db
