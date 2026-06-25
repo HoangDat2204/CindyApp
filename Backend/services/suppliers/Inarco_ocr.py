@@ -12,6 +12,70 @@ import re
 from datetime import datetime
 from bs4 import BeautifulSoup
 import io
+def parse_date(raw_date: str) -> str:
+    raw_date = raw_date.strip()
+    # Normalize separators
+    normalized = raw_date.replace("/", "-").replace(".", "-")
+    
+    # Try to parse numeric formats like 24-03-2026 or 24-3-2026
+    parts = normalized.split("-")
+    if len(parts) == 3:
+        # Check if it's YYYY-MM-DD
+        if len(parts[0]) == 4 and parts[1].isdigit() and parts[2].isdigit():
+            try:
+                dt = datetime(int(parts[0]), int(parts[1]), int(parts[2]))
+                return dt.strftime("%Y-%m-%d")
+            except ValueError:
+                pass
+        # Check if it's DD-MM-YYYY or DD-MM-YY
+        elif parts[0].isdigit() and parts[1].isdigit():
+            day = int(parts[0])
+            month = int(parts[1])
+            year_str = parts[2]
+            if len(year_str) == 2:
+                year = 2000 + int(year_str)
+            elif len(year_str) == 4:
+                year = int(year_str)
+            else:
+                year = 2000
+            try:
+                dt = datetime(year, month, day)
+                return dt.strftime("%Y-%m-%d")
+            except ValueError:
+                pass
+                
+        # Check if it has a month name (e.g. 15-May-2026 or 15-May-26)
+        day_str, month_str, year_str = parts[0], parts[1], parts[2]
+        months_map = {
+            "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+            "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12
+        }
+        month_key = month_str[:3].lower()
+        if day_str.isdigit() and month_key in months_map:
+            day = int(day_str)
+            month = months_map[month_key]
+            if len(year_str) == 2:
+                year = 2000 + int(year_str)
+            elif len(year_str) == 4:
+                year = int(year_str)
+            else:
+                year = 2000
+            try:
+                dt = datetime(year, month, day)
+                return dt.strftime("%Y-%m-%d")
+            except ValueError:
+                pass
+
+    # Fallback to direct strptime
+    for fmt in ("%d-%b-%Y", "%d-%b-%y", "%d.%m.%Y", "%d.%m.%y", "%Y-%m-%d"):
+        try:
+            parsed_date = datetime.strptime(raw_date, fmt)
+            return parsed_date.strftime("%Y-%m-%d")
+        except ValueError:
+            continue
+            
+    return raw_date
+
 # ==========================================
 # PHẦN 1: BÓC TÁCH TỪ HTML SANG JSON (BEAUTIFULSOUP)
 # ==========================================
@@ -93,22 +157,16 @@ def extract_invoice_to_json(html_content: str) -> dict:
             if text == "TO:":
                 if j + 1 < len(cells):
                     raw_client_name = cells[j+1].get_text(separator=" ", strip=True)
-                    # if not data["client"]:
-                    #     data["client"] = raw_client_name
-
+            
             if text == "QUOTE NO":
                 if i + 1 < len(rows):
                     next_row_cells = rows[i+1].find_all('td')
                     if len(next_row_cells) > 2:
                         data["invoice_code"] = next_row_cells[1].text.strip()
                         raw_date = next_row_cells[2].text.strip()
-                        try:
-                            parsed_date = datetime.strptime(raw_date, "%d-%b-%y")
-                            data["date"] = parsed_date.strftime("%Y-%m-%d")
-                        except ValueError:
-                            data["date"] = raw_date
+                        data["date"] = parse_date(raw_date)
 
-            if any(k in text for k in ["CIF", "CFR"]): 
+            if any(k in text for k in ["CIF", "CFR", "CIP"]): 
                 price = None
                 for next_cell in cells[j+1:]:
                     price = extract_float(next_cell.text)

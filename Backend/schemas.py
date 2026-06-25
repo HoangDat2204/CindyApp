@@ -104,9 +104,9 @@ class InvoiceCreate(BaseModel):
     date: Optional[datetime.date] = None
     date_quotation: Optional[datetime.date] = None # Map với date của client
     
-    status: str = "pending"
-    payment_method: str = "no info"
-    currency: str = "USD"
+    status: Optional[str] = "pending"
+    payment_method: Optional[str] = "no info"
+    currency: Optional[str] = "USD"
     
     # Khách hàng (Client)
     client_id: Optional[int] = None
@@ -119,7 +119,7 @@ class InvoiceCreate(BaseModel):
     supplier_name: Optional[str] = None
     # client: Optional[str] = "No name recorded" # Trường client của SupplierInvoice
     suppliers_pdf_file_path: Optional[str] = None
-    note: str = None
+    note: Optional[str] = None
     
     customFields: Optional[List[Dict[str, Any]]] = []
     items: List[InvoiceItemCreate] = []
@@ -221,10 +221,10 @@ class ContractBase(BaseModel):
     # Thêm các trường mới
     receiver: Optional[str] = None
     status: Optional[str] = None
-    payment_status: Literal["paid", "not yet paid", "paid 50%"] = "not yet paid"
+    payment_status: Optional[Literal["paid", "not yet paid", "paid 50%"]] = "not yet paid"
     
-    payment_status_supplier: Literal["paid", "not yet paid", "paid 50%"] = "not yet paid"
-    payment_status_customer: Literal["paid", "not yet paid", "paid 50%"] = "not yet paid"
+    payment_status_supplier: Optional[Literal["paid", "not yet paid", "paid 50%"]] = "not yet paid"
+    payment_status_customer: Optional[Literal["paid", "not yet paid", "paid 50%"]] = "not yet paid"
     nego_margin: Optional[float] = 0.0
     supplier_discount: Optional[float] = 0.0
     customer_discount: Optional[float] = 0.0

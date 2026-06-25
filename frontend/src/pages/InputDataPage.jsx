@@ -1,6 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
+const formatDetailError = (detail, fallback = "Lỗi không xác định.") => {
+  if (!detail) return fallback;
+  if (typeof detail === "string") return detail;
+  if (Array.isArray(detail)) {
+    return detail.map(d => {
+      const path = d.loc ? d.loc.filter(x => x !== "body" && x !== "query").join(".") : "";
+      return (path ? `[${path}] ` : "") + d.msg;
+    }).join("\n");
+  }
+  if (typeof detail === "object") {
+    return JSON.stringify(detail);
+  }
+  return String(detail);
+};
 
 const CURRENCY_CONFIG = {
   VND: { locale: "vi-VN", symbol: "đ", symbolBefore: false, decimals: 0 },
@@ -1486,7 +1500,7 @@ export default function InvoiceApp() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.detail || "Lưu thất bại");
+        throw new Error(formatDetailError(result.detail, "Lưu thất bại"));
       }
 
       triggerAlert("🎉 " + result.message);

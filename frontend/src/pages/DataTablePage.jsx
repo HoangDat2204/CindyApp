@@ -8,6 +8,21 @@ import {
 } from "lucide-react";
 
 // ── Constants & Helpers ──────────────────────────────────────────────────────
+const formatDetailError = (detail, fallback = "Lỗi không xác định.") => {
+  if (!detail) return fallback;
+  if (typeof detail === "string") return detail;
+  if (Array.isArray(detail)) {
+    return detail.map(d => {
+      const path = d.loc ? d.loc.filter(x => x !== "body" && x !== "query").join(".") : "";
+      return (path ? `[${path}] ` : "") + d.msg;
+    }).join("\n");
+  }
+  if (typeof detail === "object") {
+    return JSON.stringify(detail);
+  }
+  return String(detail);
+};
+
 const CURRENCY_CONFIG = {
   VND: { locale: "vi-VN", symbol: "đ", symbolBefore: false, decimals: 0 },
   USD: { locale: "en-US", symbol: "$", symbolBefore: true, decimals: 2 },
@@ -388,13 +403,14 @@ function ContractDetailModal({ record, onClose, onSaveSuccess }) {
       });
 
       if (response.ok) {
+        const updated = await response.json().catch(() => null);
         alert("✅ Cập nhật hợp đồng thành công!");
         setIsEditing(false);
-        if (onSaveSuccess) onSaveSuccess();
+        if (onSaveSuccess) onSaveSuccess(updated);
         onClose();
       } else {
         const err = await response.json().catch(() => ({}));
-        alert(`❌ Cập nhật thất bại! Lý do: ${err.detail || "Lỗi không xác định."}`);
+        alert(`❌ Cập nhật thất bại! Lý do:\n${formatDetailError(err.detail)}`);
       }
     } catch (e) {
       console.error(e);
@@ -1182,13 +1198,14 @@ function InvoiceDetailModal({ record, onClose, activeTab, onSaveSuccess }) {
       });
 
       if (response.ok) {
+        const updated = await response.json().catch(() => null);
         alert("✅ Lưu thông tin thành công!");
         setIsEditing(false);
         setEditForm(null);
-        if (onSaveSuccess) onSaveSuccess();
+        if (onSaveSuccess) onSaveSuccess(updated);
       } else {
         const err = await response.json().catch(() => ({}));
-        alert(`❌ Lưu thất bại! Lý do: ${err.detail || "Lỗi không xác định."}`);
+        alert(`❌ Lưu thất bại! Lý do:\n${formatDetailError(err.detail)}`);
       }
     } catch (e) {
       console.error(e);
@@ -2820,6 +2837,23 @@ export default function DataTablePage() {
     }, 100);
   };
 
+  const handleSaveSuccess = (updatedRecord) => {
+    if (!updatedRecord) {
+      handleRefresh();
+      return;
+    }
+    setRows(prevRows => prevRows.map(row => row.id === updatedRecord.id ? updatedRecord : row));
+    setCachedData(prev => ({
+      ...prev,
+      [activeTab]: {}
+    }));
+    if (activeTab === "contract") {
+      setContractDetailRecord(updatedRecord);
+    } else {
+      setDetailRecord(updatedRecord);
+    }
+  };
+
   // Xử lý Gửi Form Lập Hợp Đồng Lên Backend
   const handleCreateContractSubmit = async (payload) => {
     setLoading(true);
@@ -2838,7 +2872,7 @@ export default function DataTablePage() {
         setTimeout(() => fetchInvoices(true), 100);
       } else {
         const errorData = await res.json().catch(() => ({}));
-        triggerAlert(`❌ Lập hợp đồng thất bại!\nLý do: ${errorData.detail || "Vui lòng kiểm tra lại thông tin."}`);
+        triggerAlert(`❌ Lập hợp đồng thất bại!\nLý do:\n${formatDetailError(errorData.detail, "Vui lòng kiểm tra lại thông tin.")}`);
       }
     } catch (err) {
       console.error("Lỗi lập hợp đồng:", err);
@@ -2874,7 +2908,7 @@ export default function DataTablePage() {
         }, 100);
       } else {
         const errorData = await res.json().catch(() => ({}));
-        triggerAlert(`❌ Xóa thất bại!\nLý do: ${errorData.detail || "Lỗi không xác định từ máy chủ."}`);
+        triggerAlert(`❌ Xóa thất bại!\nLý do:\n${formatDetailError(errorData.detail, "Lỗi không xác định từ máy chủ.")}`);
       }
     } catch (error) {
       console.error("Lỗi xóa:", error);
@@ -3498,10 +3532,10 @@ export default function DataTablePage() {
       </main>
       
       {/* Component Modal Chi Tiết Hóa Đơn */}
-      <InvoiceDetailModal record={detailRecord} onClose={() => setDetailRecord(null)} activeTab={activeTab} onSaveSuccess={handleRefresh} />
+      <InvoiceDetailModal record={detailRecord} onClose={() => setDetailRecord(null)} activeTab={activeTab} onSaveSuccess={handleSaveSuccess} />
       
       {/* Component Modal Chi Tiết Hợp Đồng */}
-      <ContractDetailModal record={contractDetailRecord} onClose={() => setContractDetailRecord(null)} onSaveSuccess={handleRefresh} />
+      <ContractDetailModal record={contractDetailRecord} onClose={() => setContractDetailRecord(null)} onSaveSuccess={handleSaveSuccess} />
       
       {/* Component Modal Lập Hợp Đồng Mới */}
       <CreateContractModal 
