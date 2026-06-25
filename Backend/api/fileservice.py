@@ -51,7 +51,7 @@ def extract_text_with_pdfplumber(file_bytes: bytes) -> str:
                 if extracted:
                     full_text += extracted + "\n"
     except Exception as e:
-        print(f"Lỗi đọc PDF bằng pdfplumber: {e}")
+        print(f"Error reading PDF with pdfplumber: {e}")
         
     return full_text
 
@@ -92,7 +92,7 @@ def identify_file_owner(file_bytes: bytes) -> dict:
     except Exception:
         pass
     if not extracted_text:
-        return {"owner_type": "unknown", "owner_id": None}
+        return {"owner_type": "client", "owner_id": None}
 
     # --- Uu tien 1: Phat hien Nha cung cap bằng chu ký dac trung khoang cach lon ---
     if "INARCO PRIVATE LTD" in extracted_text:
@@ -198,8 +198,9 @@ def identify_file_owner(file_bytes: bytes) -> dict:
             "owner_id": None  # client_id duoc xac dinh trong client_extract()
         }
 
+    # Fallback mặc định là báo giá của mình (Client Invoice) để người dùng có thể chỉnh sửa thủ công
     return {
-        "owner_type": "unknown",
+        "owner_type": "client",
         "owner_id": None
     }
 

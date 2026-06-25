@@ -143,9 +143,6 @@ def client_extract(file_bytes: bytes) -> dict:
     full_text = "\n".join(pages_text)
     page1_text = pages_text[0] if pages_text else ""
 
-    if "TIMTEX TRADING CO" not in full_text.upper():
-        raise ValueError("Khong tim thay header TIMTEX TRADING CO.")
-
     data = {
         "invoice_type": "client",
         "invoice_code": None,
