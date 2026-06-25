@@ -27,7 +27,7 @@ if exist "frontend\dashboard.exe" (
 )
 
 :: 3. Tu dong don dep triet de: Dong ca tien trinh cha (reloader) va con (worker) cua uvicorn
-wmic process where "name='python.exe' and ExecutablePath like '%%python_runtime%%'" call terminate >nul 2>&1
+powershell -Command "Get-Process | Where-Object { $_.Path -like '*python_runtime*' } | Stop-Process -Force" >nul 2>&1
 
 :: Don dep du phong theo PID cua port 8000
 for /f "tokens=5" %%a in ('netstat -aon ^| findstr :8000 ^| findstr LISTENING') do (
